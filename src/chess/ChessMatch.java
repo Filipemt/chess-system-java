@@ -5,7 +5,6 @@ import boardgame.Piece;
 import boardgame.Position;
 import chess.pieces.*;
 
-import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -91,7 +90,11 @@ public class ChessMatch {
         // SpecialMove promotion
         promoted = null;
         if (movedPiece instanceof Pawn) {
-            if (movedPiece.getColor() == Color.WHITE && target.getRow() == 0 || movedPiece.getColor() == Color.BLACK&& target.getRow() == 7) {
+            if (movedPiece.getColor() == Color.WHITE &&
+                    target.getRow() == 0
+                    || movedPiece.getColor() == Color.BLACK
+                    && target.getRow() == 7) {
+
                 promoted = (ChessPiece)board.piece(target);
                 promoted = replacePromotedPiece("Q");
             }
@@ -107,7 +110,10 @@ public class ChessMatch {
         }
 
         // SpecialMove enPassant
-        if (movedPiece instanceof Pawn && (target.getRow() == source.getRow() -2 || target.getRow() == source.getRow() +2)) {
+        if (movedPiece instanceof Pawn
+                && (target.getRow() == source.getRow() -2
+                || target.getRow() == source.getRow() +2)) {
+
             enPassantVulnerable = movedPiece;
         } else {
             enPassantVulnerable = null;
@@ -197,8 +203,12 @@ public class ChessMatch {
         if (promoted == null) {
             throw new IllegalStateException("There is no piece to be promoted!");
         }
-        if (!type.equals("B") && !type.equals("N") && !type.equals("R") && !type.equals("Q")) {
-            throw new InvalidParameterException("Invalid type for promotion!");
+        if (!type.equals("B")
+                && !type.equals("N")
+                && !type.equals("R")
+                && !type.equals("Q")) {
+
+            return promoted;
         }
 
         Position pos = promoted.getChessPosition().toPosition();
